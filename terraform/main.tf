@@ -18,7 +18,7 @@ resource "azurerm_resource_group" "rg" {
   location = var.location
 }
 
-# 2. Log Analytics Workspace (Monitoring)
+# 2. Log Analytics Workspace
 resource "azurerm_log_analytics_workspace" "logs" {
   name                = "log-${var.project_name}-${var.environment}"
   location            = azurerm_resource_group.rg.location
@@ -27,7 +27,7 @@ resource "azurerm_log_analytics_workspace" "logs" {
   retention_in_days   = 30
 }
 
-# 3. Azure Container Apps Environment
+# 3. Azure Container Apps Managed Environment
 resource "azurerm_container_app_environment" "env" {
   name                       = "cae-${var.project_name}-${var.environment}"
   location                   = azurerm_resource_group.rg.location
@@ -35,7 +35,7 @@ resource "azurerm_container_app_environment" "env" {
   log_analytics_workspace_id = azurerm_log_analytics_workspace.logs.id
 }
 
-# 4. Azure Container App (Configured to scale to zero)
+# 4. Azure Container App
 resource "azurerm_container_app" "app" {
   name                         = "ca-${var.project_name}-${var.environment}"
   container_app_environment_id = azurerm_container_app_environment.env.id
