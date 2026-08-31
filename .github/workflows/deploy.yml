@@ -70,5 +70,6 @@ jobs:
       - name: Terraform Apply
         working-directory: ./terraform
         run: |
+          REPO_LOWER=$(echo "${{ github.repository }}" | tr '[:upper:]' '[:lower:]')
           terraform apply -auto-approve \
-            -var="container_image=ghcr.io/${{ github.repository }}:latest"
+            -var="container_image=ghcr.io/${REPO_LOWER}:latest"
